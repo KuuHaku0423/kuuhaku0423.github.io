@@ -6,7 +6,7 @@
   <link href="http://kuuhaku0423.github.io/atom.xml" rel="self"/>
   
   <link href="http://kuuhaku0423.github.io/"/>
-  <updated>2022-09-21T04:34:17.127Z</updated>
+  <updated>2022-09-21T04:48:38.218Z</updated>
   <id>http://kuuhaku0423.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://kuuhaku0423.github.io/2022/09/21/%E7%A8%8B%E5%BA%8F%E6%9B%B4%E6%96%B0%E6%97%A5%E8%AE%B0-2022-09/"/>
     <id>http://kuuhaku0423.github.io/2022/09/21/%E7%A8%8B%E5%BA%8F%E6%9B%B4%E6%96%B0%E6%97%A5%E8%AE%B0-2022-09/</id>
     <published>2022-09-21T12:11:00.000Z</published>
-    <updated>2022-09-21T04:34:17.127Z</updated>
+    <updated>2022-09-21T04:48:38.218Z</updated>
     
     <content type="html"><![CDATA[<h2 id="后端更新"><a href="#后端更新" class="headerlink" title="后端更新"></a>后端更新</h2><h4 id="1、出院处方打印问题"><a href="#1、出院处方打印问题" class="headerlink" title="1、出院处方打印问题"></a>1、出院处方打印问题</h4><blockquote><p>出院处方打印时当患者信息表里身份证信息为空时会无法打印</p></blockquote><ol><li>解决方案：当患者信息表里的身份证信息为空时，会传进来新的身份证号，去到表里进行Update</li><li>方法类：web.DHCDocCheckPoison</li><li>方法：UpdateAgencyInfo</li><li>更新时间：<strong>2022-09-21</strong> </li></ol>]]></content>
     
@@ -42,8 +42,8 @@
     <title></title>
     <link href="http://kuuhaku0423.github.io/2022/09/21/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E7%9A%84%E5%89%AF%E6%9C%AC/"/>
     <id>http://kuuhaku0423.github.io/2022/09/21/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E7%9A%84%E5%89%AF%E6%9C%AC/</id>
-    <published>2022-09-21T04:34:17.127Z</published>
-    <updated>2022-09-21T04:34:17.127Z</updated>
+    <published>2022-09-21T04:48:38.218Z</published>
+    <updated>2022-09-21T04:48:38.218Z</updated>
     
     <content type="html"><![CDATA[<h2 id="放射科执行基数药异常"><a href="#放射科执行基数药异常" class="headerlink" title="放射科执行基数药异常"></a>放射科执行基数药异常</h2><p>核实是否生成执行记录：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> OE_OrdExec a <span class="keyword">WHERE</span></span><br><span class="line">a.OEORE OEORI ParRef<span class="operator">=</span> <span class="string">&#x27;58752369||39</span></span><br></pre></td></tr></table></figure><p>没有则生成执行记录</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GenExe^DHCOEOrdExec(rowid,SttDate)</span><br></pre></td></tr></table></figure><p>Rowed:医嘱字表id</p><p>SttDate：如果是临时医嘱或者取药医嘱，取医嘱开立时间</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">执行例子：</span></span><br><span class="line">d  GenExe^DHCOEOrdExec(&quot;581969021||1224&quot;.$zdh(&quot;2022-07-27&quot;3))</span><br></pre></td></tr></table></figure><p>注意：生成了执行记录不会重复生成</p><h2 id="卒中系统推送患者就诊信息"><a href="#卒中系统推送患者就诊信息" class="headerlink" title="卒中系统推送患者就诊信息"></a>卒中系统推送患者就诊信息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">入参就诊号：</span></span><br><span class="line">w ##class(web.ZSSY.ApoplexyInterface).realReceiveRegister(&quot;50628013&quot;)</span><br></pre></td></tr></table></figure><h2 id="重推检查申请单"><a href="#重推检查申请单" class="headerlink" title="重推检查申请单"></a>重推检查申请单</h2><blockquote><p>1.重推检查申请单（门诊走的是医嘱计费状态接口，住院走的是检查申请单信息(住院)接口）：</p></blockquote><p>1.1住院推送检查申请单（OeoriList用“^”分割医嘱）</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w ##class(web.DHCENS.EnsHISService).DHCHisInterface(&quot;SENDRISAPPBILLINFO&quot;,OeoriList)</span><br></pre></td></tr></table></figure><p>1.2门诊推送检查申请单（OeoriList用“^”分割医嘱）</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w ##class(web.DHCENS.EnsHISService).DHCHisInterface(&quot;SENDOPCHARGEINFO&quot;,OeoriList)</span><br></pre></td></tr></table></figure>]]></content>
     
