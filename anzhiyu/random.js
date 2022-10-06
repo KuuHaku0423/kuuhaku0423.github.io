@@ -1,0 +1,1 @@
+var posts=["2022/09/22/Docker学习笔记/","2022/09/21/异常处理的副本/","2022/09/21/程序更新日记-2022-09/"];function toRandomPost(){pjax.loadUrl("/"+posts[Math.floor(Math.random()*posts.length)])}
